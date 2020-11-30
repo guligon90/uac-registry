@@ -1,0 +1,52 @@
+version: '3.2'
+
+services:
+  database:
+    container_name: uac-registry-database
+    image: uac-registry-database-image
+    build:
+      context: ./src/database
+      dockerfile: ./docker/Dockerfile
+      args:
+        - TZ=America/Sao_Paulo
+    env_file:
+      - ./src/database/docker/.database.env
+    volumes:
+      - type: volume
+        source: uac_registry_data
+        target: /var/lib/postgresql/pgdata
+    ports:
+      - target: 5432
+        published: 5432
+    networks:
+      - uac-registry-network
+
+  backend:
+    container_name: uac-registry-backend
+    command: ../wait-for.sh database:5432 -- python3 manage.py runserver 0.0.0.0:8080
+    image: uac-registry-backend-image
+    user: root
+    build:
+      context: ./src/backend
+      dockerfile: ./docker/Dockerfile
+      args:
+        - TZ=America/Sao_Paulo
+    volumes:
+      - type: bind
+        source: ./src/backend/uac-registry
+        target: /uac-registry/backend
+    env_file:
+      - ./src/backend/docker/.backend.env
+    ports:
+      - target: 8080
+        published: 8080
+    depends_on:
+      - database
+    networks:
+      - uac-registry-network
+
+volumes:
+  uac_registry_data:
+
+networks:
+  uac-registry-network:

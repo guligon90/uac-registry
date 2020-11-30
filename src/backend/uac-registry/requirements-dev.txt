@@ -1,0 +1,10 @@
+# Testing related
+pytest==6.1.2
+pytest-django==4.1.0
+pytest-cov==2.10.1
+
+# Code linting related
+prospector==1.1.6.2
+
+# License checking related
+liccheck==0.4.9
