@@ -7,7 +7,16 @@ member-warnings: true
 
 uses:
   - django
-  - celery
+
+mypy:
+  run: true
+  options:
+    ignore-missing-imports: true
+    follow-imports: skip
+    allow:
+      - untyped-globals
+    disallow:
+      - any-expr
 
 pep8:
   full: true
