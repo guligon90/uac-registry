@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
     'django_extensions',
+    'drf_yasg',
 ]
 
 DJANGO_APPS = [
@@ -136,6 +137,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Credentials for the Django Admin
+DJANGO_SUPERUSER_USERNAME = os.environ.get('DJANGO_SUPERUSER_USERNAME')
+DJANGO_SUPERUSER_PASSWORD = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+DJANGO_SUPERUSER_EMAIL = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+DJANGO_SUPERUSER_FIRST_NAME = os.environ.get('DJANGO_SUPERUSER_FIRST_NAME')
+DJANGO_SUPERUSER_LAST_NAME = os.environ.get('DJANGO_SUPERUSER_LAST_NAME')
 
 # The default time is five minutes.
 DJANGO_JWT_EXPIRATION_DELTA = int(os.environ.get('DJANGO_JWT_EXPIRATION_DELTA', 3000))

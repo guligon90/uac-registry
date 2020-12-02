@@ -10,3 +10,6 @@ psycopg2==2.8.6
 
 # HTTP requests related
 urllib3==1.26.2 
+
+# Swagger OpenAPI related
+drf-yasg[validation]==1.20.0
