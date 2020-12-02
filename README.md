@@ -23,6 +23,9 @@ To get the code base from this repository, you must open an terminal and execute
 #### Environment
 In order to setting up the Python development environment, which is required to manipulate the project building processes via `docker-compose`, you must follow [these](scripts/README.md) instructions.
 
+#### Database
+Concerning the database setup, go to this [documentation](./src/database/README.md).
+
 #### Application Server
 With the environment all set up, you can now follow the [instructions](./src/backend/README.md) to build the Django application server, which provides the UAC Registry API.
 
