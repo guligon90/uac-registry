@@ -8,3 +8,6 @@ prospector==1.1.6.2
 
 # License checking related
 liccheck==0.4.9
+
+# Type annotations
+mypy==0.790
