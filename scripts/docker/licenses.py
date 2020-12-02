@@ -5,7 +5,7 @@ from docker.run import run
 
 # Gives flexibility to add license check to a frontend project, for example
 PARAMS = {
-    "backend": ['backend', 'npm', 'run', 'licenses:check'],
+    "backend": ['backend', 'liccheck', '-s', 'strategy.ini'],
 }
 
 
