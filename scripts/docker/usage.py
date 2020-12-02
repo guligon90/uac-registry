@@ -29,12 +29,12 @@ def usage(_: Iterable[str] = None) -> None:
         licenses                  Runs license check in backend or frontend.
         lint                      Runs linter in backend or frontend.
         logs                      Attaches logs to terminal.
-        package                   Create a production delivery.
         restart                   Restarts containers.
         run                       Runs an arbitrary command in a specified service (eg. 'run frontend build').
         start                     Start containers in detached mode.
         status                    Shows all containers, images, networks and volumes.
         stop                      Stops all containers.
+        su                        Creates a Django Admin super user.
         test                      Runs the test runner in all services
     '''.format(
         volumes=red('and volumes'),
