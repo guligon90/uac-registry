@@ -11,3 +11,7 @@ liccheck==0.4.9
 
 # Type annotations
 mypy==0.790
+
+# For generating the ERD
+pyparsing==2.4.7
+pydot==1.4.1

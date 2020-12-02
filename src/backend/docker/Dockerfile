@@ -21,7 +21,10 @@ RUN \
     # Then you also need that pg_config executable: while simply installing
     # postgresql-dev will work, postgresql-libs does fine too and takes 
     # up some 12 MB less space.
-    && apk add --no-cache postgresql-libs \
+    && apk add --no-cache \
+        # graphviz for creating the ERD
+        graphviz \
+        postgresql-libs \
     && apk add --no-cache --virtual \
         .build-deps \
         gcc \

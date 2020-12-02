@@ -24,6 +24,7 @@ def usage(_: Iterable[str] = None) -> None:
         clean                     Removes all containers, networks {volumes}.
         coverage                  Reports the test coverage of the service.
         dev                       Starts containers.
+        erd                       Generates an ER diagram (ERD) of the implemented DB models.
         kill                      Runs clean and {images}.
         licenses                  Runs license check in backend or frontend.
         lint                      Runs linter in backend or frontend.

@@ -8,6 +8,7 @@ from typing import Optional, List
 #from docker.clean import clean
 #from docker.coverage import coverage
 #from docker.dev import dev
+from docker.erd import erd
 #from docker.kill import kill
 from docker.licenses import licenses
 #from docker.lint import lint
@@ -29,6 +30,7 @@ def argument_to_command(arguments: Optional[List[str]]) -> None:
         #"clean": clean,
         #"coverage": coverage,
         #"dev": dev,
+        "erd": erd,
         #"kill": kill,
         "licenses": licenses,
         #"lint": lint,
