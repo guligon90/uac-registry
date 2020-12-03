@@ -68,3 +68,22 @@ If, for some reason, the code base for the SQL models have been altered, you mus
 ```
 
 To stop the container, just run `./scripts/devenv.py stop database`.
+
+## Django Admin
+
+The Django frameworks provides also the Django Admin page, which is an interface for the user to interact with both the database and the implemented API.
+This interface is accessible, [via browser](http://localhost:8080/admin), as shown below:
+
+<span style="display:block;text-align:center">![arch](../../docs/img/django_admin.png)</span>
+
+Naturally, in order to the platform be accessible, both `database` and `backend` services must be up and running, and also a superuser must be created.
+The latter can be achieved via the `devenv` script suite, by running `./scripts/devenv.py su`.
+
+The credentials for the superuser are specified in the back-end [`.env` file](../backend/docker/.backend.env), in the environment variables `DJANGO_SUPERUSER_EMAIL` and
+`DJANGO_USERNAME_PASSWORD`.
+
+Once logged in, the platform provides a dashboard, with tools for inserting new data into the database, as shown below:
+
+<span style="display:block;text-align:center">![arch](../../docs/img/django_admin_dashboard.png)</span>
+
+[<< Back](../../README.md)
