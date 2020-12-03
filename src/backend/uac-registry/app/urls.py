@@ -40,7 +40,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^addresses/', include(('address.urls', 'addresses'), namespace='addresses')),
+    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # This endpoint generates a JSON or YAML version of the API documentation,
+    # so that it can be imported, e.g., by the Postman tool, in order to test the API.
+    url(r'^docs(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='docs-text-mode'),
     url(r'^users/', include(('user.urls', 'users'), namespace='users')),
     url(r'^clients/', include(('client.urls', 'clients'), namespace='clients')),
-    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
