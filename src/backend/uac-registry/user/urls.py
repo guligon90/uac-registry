@@ -1,11 +1,16 @@
 # Django imports
-from django.conf.urls import url
+from django.urls import path
+
+# DRF imports
+from rest_framework.urlpatterns import format_suffix_patterns
 
 # Project imports
-from .views import UserLoginAPIView, CreateUserAPIView, UserRetrieveUpdateAPIView
+from user import views
 
 
 urlpatterns = [
-    url(r'^create/$', CreateUserAPIView.as_view()),
-    url(r'^login/$', UserLoginAPIView.as_view()),
+    path('list/', views.list_users),
+    path('create/', views.create_user),
+    path('detail/<int:pk>', views.user_detail),
+    path('login/', views.login)
 ]
