@@ -31,7 +31,6 @@ schema_view = get_schema_view(
       title="UAC Registry API",
       default_version='v1',
       description="A REST API, built with Django, which provides CRUD operations for addresses, clients and users.",
-      terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="guligon90@gmail.com"),
       license=openapi.License(name="MIT License"),
    ),
@@ -41,6 +40,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/', include(('user.urls', 'user'), namespace='user')),
+    url(r'^users/', include(('user.urls', 'users'), namespace='users')),
+    url(r'^clients/', include(('client.urls', 'clients'), namespace='clients')),
     url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
