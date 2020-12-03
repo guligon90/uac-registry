@@ -2,6 +2,8 @@
 from rest_framework.serializers import ModelSerializer, ReadOnlyField
 from .models import User
 
+# Project imports
+from address.serializers import AddressSerializer
 
 class UserSerializer(ModelSerializer):
 
@@ -17,6 +19,7 @@ class UserSerializer(ModelSerializer):
             'date_joined',
             'password',
             'addresses',
+            'client',
         )
         extra_kwargs = {
             'password': {'write_only': True}

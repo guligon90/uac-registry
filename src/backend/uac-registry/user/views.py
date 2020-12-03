@@ -92,6 +92,7 @@ def user_detail(request, pk):
 @api_view(['POST',])
 @permission_classes([AllowAny,])
 def login(request):
+    """Generates a JWT for an user, given valid credentials."""
     try:
         email = request.data['email']
         password = request.data['password']
