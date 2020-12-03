@@ -9,7 +9,7 @@ from client import views
 
 
 urlpatterns = [
-    path('list/', views.list_clients),
+    path('', views.list_clients),
     path('create/', views.create_client),
-    path('detail/<int:pk>', views.client_detail),
+    path('<int:pk>', views.client_detail),
 ]

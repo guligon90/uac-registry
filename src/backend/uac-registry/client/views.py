@@ -2,6 +2,7 @@
 from django.shortcuts import render
 
 # DRF imports
+from rest_framework.viewsets import ViewSet
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -37,7 +38,7 @@ def list_clients(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated,])
-def create_client(request):
+def create_client(request, user_pk=None):
     """
     Create a new client.
     """
@@ -53,7 +54,7 @@ def create_client(request):
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated,])
-def client_detail(request, pk):
+def client_detail(request, pk, user_pk=None):
     """
     Retrieve, update or delete a client.
     """
@@ -80,3 +81,24 @@ def client_detail(request, pk):
             return Response(payload, status=status.HTTP_204_NO_CONTENT)
     except Exception as e:
         return response_from_exception('client.views.client_detail', e)
+
+
+class ClientUserAPIViewSet(ViewSet):
+    """View set for the client API endpoints associated
+    to a user, i.e., excluding the listing and deleting
+    endpoints."""
+
+    def create(self, request, user_pk):
+        """Creates a client for that user."""
+        from pprint import pprint
+        pprint(request)
+
+        return create_client(request, user_pk)
+
+    def retrieve(self, request, pk, user_pk):
+        """Retrieves the client associated to the user."""
+        return client_detail(request, pk, user_pk)
+
+    def partial_update(self, request, pk, user_pk):
+        """Updates the user's client instance."""
+        return client_detail(request, pk, user_pk)
