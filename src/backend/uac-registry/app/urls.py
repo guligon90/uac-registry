@@ -27,15 +27,15 @@ from rest_framework.permissions import AllowAny
 
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="UAC Registry API",
-      default_version='v1',
-      description="A REST API, built with Django, which provides CRUD operations for addresses, clients and users.",
-      contact=openapi.Contact(email="guligon90@gmail.com"),
-      license=openapi.License(name="MIT License"),
-   ),
-   public=True,
-   permission_classes=(AllowAny,),
+    openapi.Info(
+        title="UAC Registry API",
+        default_version='v1',
+        description="A REST API, built with Django, which provides CRUD operations for addresses, clients and users.",
+        contact=openapi.Contact(email="guligon90@gmail.com"),
+        license=openapi.License(name="MIT License"),
+    ),
+    public=True,
+    permission_classes=(AllowAny,),
 )
 
 urlpatterns = [

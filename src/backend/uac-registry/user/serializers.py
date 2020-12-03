@@ -1,9 +1,9 @@
 # Django imports
 from rest_framework.serializers import ModelSerializer, ReadOnlyField
-from .models import User
 
 # Project imports
-from address.serializers import AddressSerializer
+from .models import User
+
 
 class UserSerializer(ModelSerializer):
 

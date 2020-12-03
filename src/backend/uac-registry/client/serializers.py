@@ -1,5 +1,5 @@
 # Django imports
-from rest_framework.serializers import ModelSerializer, ReadOnlyField
+from rest_framework.serializers import ModelSerializer
 from .models import Client
 
 

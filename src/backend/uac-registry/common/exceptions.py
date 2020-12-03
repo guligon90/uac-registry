@@ -20,10 +20,10 @@ class CustomAPIException(APIException):
         context: str,
         message: str,
         code: Optional[str] = None,
-        status: Optional[int] = None
+        status_code: Optional[int] = None
     ) -> None:
-        if status is not None:
-            self.status_code = status
+        if status_code is not None:
+            self.status_code = status_code
 
         if code is not None:
             self.default_code = code
@@ -35,15 +35,17 @@ class CustomAPIException(APIException):
             'status': self.status_code,
         }
 
+        super().__init__(self)
+
 
 def response_from_exception(
     context: str,
     exception: Union[APIException, Exception],
-    status: Optional[int] = DEFAULT_STATUS
+    status_code: Optional[int] = DEFAULT_STATUS
 ) -> Response:
     code = exception.__class__.__name__
     message = str(exception)
-    status = exception.status_code if isinstance(exception, APIException) else status
-    custom_exc = CustomAPIException(context, message, code, status)
+    status_code = exception.status_code if isinstance(exception, APIException) else status_code
+    custom_exc = CustomAPIException(context, message, code, status_code)
 
     return Response(custom_exc.detail, status=custom_exc.status_code)

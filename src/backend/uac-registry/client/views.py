@@ -1,6 +1,3 @@
-# Django imports
-from django.shortcuts import render
-
 # DRF imports
 from rest_framework.viewsets import ViewSet
 from rest_framework import status
@@ -9,24 +6,22 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 # Project imports
+from common.exceptions import response_from_exception
 from .models import Client
 from .serializers import ClientSerializer
-from common.exceptions import response_from_exception
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def list_clients(request):
-    """
-    List all clients.
-    """
+    """Lists all clients."""
     try:
         if request.method == 'GET':
             clients = Client.objects.all()
             serializer = ClientSerializer(clients, many=True)
             return Response(serializer.data)
 
-        elif request.method == 'POST':
+        if request.method == 'POST':
             serializer = ClientSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -37,11 +32,9 @@ def list_clients(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def create_client(request, user_pk=None):
-    """
-    Create a new client.
-    """
+    """Creates a new client."""
     try:
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
@@ -53,11 +46,9 @@ def create_client(request, user_pk=None):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def client_detail(request, pk, user_pk=None):
-    """
-    Retrieve, update or delete a client.
-    """
+    """Retrieves, update or delete a client."""
     try:
         try:
             client = Client.objects.get(pk=pk)
@@ -68,14 +59,14 @@ def client_detail(request, pk, user_pk=None):
             serializer = ClientSerializer(client)
             return Response(serializer.data)
 
-        elif request.method == 'PATCH':
+        if request.method == 'PATCH':
             serializer = ClientSerializer(client, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        elif request.method == 'DELETE':
+        if request.method == 'DELETE':
             client.delete()
             payload = {'message': 'Client removed successfully.'}
             return Response(payload, status=status.HTTP_204_NO_CONTENT)
@@ -90,9 +81,6 @@ class ClientUserAPIViewSet(ViewSet):
 
     def create(self, request, user_pk):
         """Creates a client for that user."""
-        from pprint import pprint
-        pprint(request)
-
         return create_client(request, user_pk)
 
     def retrieve(self, request, pk, user_pk):

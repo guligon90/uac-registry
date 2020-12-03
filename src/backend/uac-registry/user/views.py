@@ -3,9 +3,7 @@ import jwt
 
 # Django imports
 from django.conf import settings
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.contrib.auth.signals import user_logged_in
 
 # DRF imports
 from rest_framework import status
@@ -15,17 +13,15 @@ from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 
 # Project imports
+from common.exceptions import response_from_exception
 from .models import User
 from .serializers import UserSerializer
-from common.exceptions import response_from_exception
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny,])
+@permission_classes([AllowAny, ])
 def create_user(request):
-    """
-    Create a new user
-    """
+    """Create a new user"""
     try:
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -37,18 +33,16 @@ def create_user(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def list_users(request):
-    """
-    List all users.
-    """
+    """List all users."""
     try:
         if request.method == 'GET':
             users = User.objects.all()
             serializer = UserSerializer(users, many=True)
             return Response(serializer.data)
 
-        elif request.method == 'POST':
+        if request.method == 'POST':
             serializer = UserSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -59,11 +53,9 @@ def list_users(request):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated, ])
 def user_detail(request, pk):
-    """
-    Retrieve, update or delete a user.
-    """
+    """Retrieve, update or delete a user."""
     try:
         try:
             user = User.objects.get(pk=pk)
@@ -74,14 +66,14 @@ def user_detail(request, pk):
             serializer = UserSerializer(user)
             return Response(serializer.data)
 
-        elif request.method == 'PATCH':
+        if request.method == 'PATCH':
             serializer = UserSerializer(user, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        elif request.method == 'DELETE':
+        if request.method == 'DELETE':
             user.delete()
             payload = {'message': 'User removed successfully.'}
             return Response(payload, status=status.HTTP_204_NO_CONTENT)
@@ -89,8 +81,8 @@ def user_detail(request, pk):
         return response_from_exception('user.views.user_detail', e)
 
 
-@api_view(['POST',])
-@permission_classes([AllowAny,])
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
 def login(request):
     """Generates a JWT for an user, given valid credentials."""
     try:
@@ -114,7 +106,8 @@ def login(request):
                 raise e
         else:
             payload = {
-                'error': 'Can not authenticate with the given credentials, or the account has been deactivated'
+                'error':
+                    'Can not authenticate with the given credentials, or the account has been deactivated'
             }
             return Response(payload, status=status.HTTP_403_FORBIDDEN)
 

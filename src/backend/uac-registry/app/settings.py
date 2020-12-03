@@ -62,9 +62,9 @@ DJANGO_APPS = [
 INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 
 REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-  ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
 }
 
 MIDDLEWARE = [
@@ -117,7 +117,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -149,10 +148,10 @@ DJANGO_SUPERUSER_LAST_NAME = os.environ.get('DJANGO_SUPERUSER_LAST_NAME')
 DJANGO_JWT_EXPIRATION_DELTA = int(os.environ.get('DJANGO_JWT_EXPIRATION_DELTA', 3000))
 
 JWT_AUTH = {
-    'JWT_VERIFY': True, # It will raise a jwt.DecodeError if the secret is wrong.
-    'JWT_VERIFY_EXPIRATION': True, # Sets the expiration to True, meaning tokens will expire after a period of time.
+    'JWT_VERIFY': True,  # It will raise a jwt.DecodeError if the secret is wrong
+    'JWT_VERIFY_EXPIRATION': True,  # Sets the expiration to True, meaning tokens will expire after a period of time
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=DJANGO_JWT_EXPIRATION_DELTA),
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer', # The Authorization header value prefix that is required to be sent together with the token. We have set it as Bearer, and the default is JWT.
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',  # The Authorization header prefix, required to be sent together with the token
 }
 
 # Internationalization

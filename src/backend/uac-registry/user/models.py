@@ -4,12 +4,14 @@ from __future__ import unicode_literals
 # Django imports
 from django.utils import timezone
 from django.db import models, transaction
-from django_extensions.db.models import TimeStampedModel
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin
 )
+
+# Django extensions imports
+from django_extensions.db.models import TimeStampedModel
 
 # Project imports
 from address.models import Address

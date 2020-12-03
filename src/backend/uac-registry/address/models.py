@@ -1,11 +1,9 @@
-# Base imports
-from typing import Optional
-
 # Django imports
 from django.db import models
-from django_extensions.db.models import TimeStampedModel
 from django.core.validators import RegexValidator
-from django.core.exceptions import ValidationError
+
+# Django extensions imports
+from django_extensions.db.models import TimeStampedModel
 
 # Project imports
 from address.components import format_address, PublicPlaces, States
@@ -24,7 +22,7 @@ class Address(TimeStampedModel):
 
     # Bairro
     district = models.CharField(max_length=100, blank=True)
-    
+
     name = models.CharField(max_length=100)
     number = models.PositiveIntegerField()
 
@@ -36,16 +34,16 @@ class Address(TimeStampedModel):
         max_length=8,
         validators=[postal_code_validator]
     )
-    
+
     # Abbrevations for public places don't have a unique size
     public_place = models.CharField(
-        max_length=PublicPlaces.max_len(), 
+        max_length=PublicPlaces.max_len(),
         choices=PublicPlaces.choices()
     )
-    
+
     # RS, SC, ...
     state = models.CharField(
-        max_length=2, 
+        max_length=2,
         choices=States.choices()
     )
 

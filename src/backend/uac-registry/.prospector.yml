@@ -8,15 +8,15 @@ member-warnings: true
 uses:
   - django
 
-mypy:
-  run: true
-  options:
-    ignore-missing-imports: true
-    follow-imports: skip
-    allow:
-      - untyped-globals
-    disallow:
-      - any-expr
+#mypy:
+#  run: true
+#  options:
+#    ignore-missing-imports: true
+#    follow-imports: skip
+#    allow:
+#      - untyped-globals
+#    disallow:
+#      - any-expr
 
 pep8:
   full: true
@@ -30,20 +30,22 @@ pep8:
     - D400
     - N802  # function name should be lowercase, breaks on tests
   options:
-    max-line-length: 100
+    max-line-length: 120
 
 pyflakes:
   disable:
     - F999
+    - F401
 
 pylint:
   disable:
+    - broad-except
     - too-few-public-methods
     - invalid-name
     - no-self-use
     - no-member
   options:
-    max-line-length: 100
+    max-line-length: 120
 
 dodgy:
   run: true
@@ -57,3 +59,4 @@ ignore-paths:
 ignore-patterns:
   - .+/migrations/.+
   - .+/settings/.+
+  - .+manage.+

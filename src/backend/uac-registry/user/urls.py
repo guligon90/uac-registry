@@ -1,14 +1,10 @@
 # Django imports
-from django.urls import path, include
-
-# DRF imports
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.urls import path
 
 # Project imports
 from user import views
 from address.views import UserAddressAPIViewSet, UserAddressDetailAPIViewSet
 from client.views import ClientUserAPIViewSet
-
 
 
 urlpatterns = [
@@ -19,7 +15,7 @@ urlpatterns = [
         '<int:user_pk>/address/<int:address_pk>',
         UserAddressDetailAPIViewSet.as_view({
             'delete': 'destroy',
-            'patch': 'partial_update',            
+            'patch': 'partial_update',
             'get': 'retrieve',
         }),
         name='user_address'
@@ -27,7 +23,7 @@ urlpatterns = [
     path('login/', views.login),
     path(
         '<int:user_pk>/addresses/',
-        UserAddressAPIViewSet.as_view({      
+        UserAddressAPIViewSet.as_view({
             'post': 'create',
             'get': 'list',
         }),
