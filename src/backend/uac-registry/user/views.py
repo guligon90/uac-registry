@@ -14,71 +14,27 @@ from rest_framework_jwt.settings import api_settings
 
 # Project imports
 from common.exceptions import response_from_exception
+from common.views import crud
 from .models import User
 from .serializers import UserSerializer
-
-
-@api_view(['POST'])
-@permission_classes([AllowAny, ])
-def create_user(request):
-    """Create a new user"""
-    try:
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return response_from_exception('user.views.create_user', e)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, ])
 def list_users(request):
-    """List all users."""
-    try:
-        if request.method == 'GET':
-            users = User.objects.all()
-            serializer = UserSerializer(users, many=True)
-            return Response(serializer.data)
+    return crud.list_instances(request, UserSerializer, User)
 
-        if request.method == 'POST':
-            serializer = UserSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return response_from_exception('user.views.list_users', e)
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def create_user(request):
+    return crud.create_instance(request, UserSerializer)
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated, ])
 def user_detail(request, pk):
-    """Retrieve, update or delete a user."""
-    try:
-        try:
-            user = User.objects.get(pk=pk)
-        except User.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        if request.method == 'GET':
-            serializer = UserSerializer(user)
-            return Response(serializer.data)
-
-        if request.method == 'PATCH':
-            serializer = UserSerializer(user, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        if request.method == 'DELETE':
-            user.delete()
-            payload = {'message': 'User removed successfully.'}
-            return Response(payload, status=status.HTTP_204_NO_CONTENT)
-    except Exception as e:
-        return response_from_exception('user.views.user_detail', e)
+    return crud.instance_detail(request, pk, User, UserSerializer)
 
 
 @api_view(['POST', ])

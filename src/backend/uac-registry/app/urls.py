@@ -38,13 +38,19 @@ schema_view = get_schema_view(
     permission_classes=(AllowAny,),
 )
 
+
 urlpatterns = [
+    # Django Admin endpoints
     url(r'^admin/', admin.site.urls),
-    url(r'^addresses/', include(('address.urls', 'addresses'), namespace='addresses')),
-    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # This endpoint generates a JSON or YAML version of the API documentation,
-    # so that it can be imported, e.g., by the Postman tool, in order to test the API.
+    # Address API endpoints
+    url(r'^address/', include(('address.urls', 'addresses'), namespace='addresses')),
+    # Swagger UI and text-mode endpoints (API documentation)
     url(r'^docs(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='docs-text-mode'),
-    url(r'^users/', include(('user.urls', 'users'), namespace='users')),
-    url(r'^clients/', include(('client.urls', 'clients'), namespace='clients')),
+    url(r'^docs/$', schema_view.with_ui('swagger', cache_timeout=0), name='docs-swagger-ui'),
+    # Client API endpoints
+    url(r'^client/', include(('client.urls', 'clients'), namespace='clients')),
+    # User API endpoints
+    url(r'^user/', include(('user.urls', 'users'), namespace='users')),
+    url(r'^user/', include(('user_address.urls', 'user_addresses'), namespace='user_addresses')),
+    url(r'^user/', include(('user_client.urls', 'user_client'), namespace='user_client')),
 ]

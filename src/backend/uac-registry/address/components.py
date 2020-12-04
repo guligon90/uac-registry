@@ -1,6 +1,5 @@
 # Base imports
 from enum import Enum
-from typing import Any, Tuple, Text
 
 
 class BaseEnum(Enum):
@@ -8,7 +7,7 @@ class BaseEnum(Enum):
     method for building the choices for the
     DB address fields"""
     @classmethod
-    def choices(cls) -> Tuple[Tuple[str, Any], ...]:
+    def choices(cls):
         return tuple((e.name, e.value) for e in cls)
 
 
@@ -98,7 +97,7 @@ def format_postal_code(code: str) -> str:
     return f'{code[:2]}.{code[2:5]}-{code[5:9]}'
 
 
-def format_address(address: dict) -> Text:
+def format_address(address):
     """
     Logradouro Rua, Número
     Complemento - Bairro
@@ -108,26 +107,17 @@ def format_address(address: dict) -> Text:
     More info:
     https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/como-enderecar-cartas-e-encomendas
     """
-    public_place = address.get('pulic_place')
-    name = address.get('name')
-    number = address.get('number')
-    postal_code = address.get('postal_code')
+    formatted_cep = format_postal_code(address.postal_code)
+    number = address.number if address.number is not None else 's/n'
+    formatted_address = f'{address.public_place} {address.name}, {number}\n'
 
-    formatted_cep = format_postal_code(postal_code)
-    formatted_address = f'{public_place} {name}, {number}\n'
+    if address.additional_info and address.district:
+        formatted_address += f'{address.additional_info} - {address.district}\n'
+    elif address.additional_info and not address.district:
+        formatted_address += f'{address.additional_info}\n'
+    elif address.district and not address.additional_info:
+        formatted_address += f'{address.district}\n'
 
-    additional_info = address.get('additional_info')
-    district = address.get('district')
-
-    if additional_info and district:
-        formatted_address += f'{additional_info} - {district}\n'
-    elif additional_info and not district:
-        formatted_address += f'{additional_info}\n'
-    elif district and not additional_info:
-        formatted_address += f'{district}\n'
-
-    city = address.get('city')
-    state = address.get('state')
-    formatted_address += f'{city} - {state}\n{formatted_cep}'
+    formatted_address += f'{address.city} - {address.state}\n{formatted_cep}'
 
     return formatted_address

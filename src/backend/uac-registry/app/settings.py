@@ -41,6 +41,8 @@ PROJECT_APPS = [
     'address.apps.AddressConfig',
     'client.apps.ClientConfig',
     'user.apps.UserConfig',
+    'user_address.apps.UserAddressConfig',
+    'user_client.apps.UserClientConfig',
 ]
 
 THIRD_PARTY_APPS = [

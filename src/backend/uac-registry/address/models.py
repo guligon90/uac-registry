@@ -24,7 +24,9 @@ class Address(TimeStampedModel):
     district = models.CharField(max_length=100, blank=True)
 
     name = models.CharField(max_length=100)
-    number = models.PositiveIntegerField()
+
+    # s/n
+    number = models.PositiveIntegerField(blank=True)
 
     # Complemento
     additional_info = models.CharField(max_length=100, blank=True)
@@ -50,4 +52,4 @@ class Address(TimeStampedModel):
     is_main_address = models.BooleanField(default=False)
 
     def __str__(self):
-        return format_address(**self.__dict__)
+        return format_address(self)
