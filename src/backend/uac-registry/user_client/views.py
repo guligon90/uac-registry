@@ -28,6 +28,19 @@ class UserClientAPIViewSet(ViewSet):
     def perform_crud_operation(cls, request, user_id):
         user = crud.get_instance_from_db(user_id, User)
         if user:
+            if request.method in ['GET', 'PATCH'] and not user.client:
+                return Response(
+                    {'message': 'The user has no associated client.'}, status=status.HTTP_404_NOT_FOUND
+                )
+
+            if request.method == 'POST':
+                response = crud.create_instance(request, ClientSerializer)
+                if response.status_code == 201:
+                    client_id = response.data.get('id')
+                    user.client = crud.get_instance_from_db(client_id, Client)
+                    user.save()
+                return response
+
             client_id = user.client.id
             return crud.instance_detail(request, client_id, Client, ClientSerializer)
 

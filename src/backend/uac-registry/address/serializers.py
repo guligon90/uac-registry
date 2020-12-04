@@ -1,5 +1,7 @@
 # Django imports
 from rest_framework.serializers import ModelSerializer
+
+# Project imports
 from .models import Address
 
 
@@ -17,5 +19,4 @@ class AddressSerializer(ModelSerializer):
             'city',
             'state',
             'postal_code',
-            'is_main_address',
         )

@@ -8,6 +8,7 @@ from rest_framework.viewsets import ViewSet
 from address.serializers import AddressSerializer
 from address.models import Address
 from user.models import User
+from user_address.models import UserAddress
 from common.exceptions import response_from_exception
 from common.views import crud
 
@@ -26,8 +27,12 @@ class UserAddressDetailAPIViewSet(ViewSet):
     def perform_crud_operation(cls, request, address_id, user_id):
         user = crud.get_instance_from_db(user_id, User)
         if user:
-            address = user.addresses.get(id=address_id)
-            return crud.instance_detail(request, address.id, Address, AddressSerializer)
+            try:
+                ua = UserAddress.objects.get(user__id=user_id, address__id=address_id)
+                return crud.instance_detail(request, ua.address.id, Address, AddressSerializer)
+            except UserAddress.DoesNotExist:
+                payload = {'error': f'Address with ID {address_id} not found.'}
+                return Response(payload, status=status.HTTP_404_NOT_FOUND)
 
         payload = {'error': f'User with ID {user_id} not found.'}
         return Response(payload, status=status.HTTP_404_NOT_FOUND)
@@ -75,8 +80,8 @@ class UserAddressAPIViewSet(ViewSet):
 
                 if serializer.is_valid():
                     address = serializer.save()
-                    user.addresses.add(address)
-                    user.save()
+                    user_address = UserAddress(address=address, user=user)
+                    user_address.save()
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -89,7 +94,8 @@ class UserAddressAPIViewSet(ViewSet):
     def list(self, request, user_id):
         """Lists all the user's addresses."""
         try:
-            addresses = Address.objects.filter(user__id=user_id)
+            user_addresses = UserAddress.objects.filter(user__id=user_id)
+            addresses = [ua.address for ua in user_addresses]
             serializer = AddressSerializer(addresses, many=True)
 
             return Response(serializer.data)
