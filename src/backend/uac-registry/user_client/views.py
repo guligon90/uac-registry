@@ -18,7 +18,7 @@ class UserClientAPIViewSet(ViewSet):
     to a user, i.e., excluding the listing and deleting
     endpoints, i.e., /user/{user_id}/client/"""
 
-    #permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     @classmethod
     def build_context(cls, method):

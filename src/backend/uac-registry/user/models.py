@@ -14,7 +14,6 @@ from django.contrib.auth.models import (
 from django_extensions.db.models import TimeStampedModel
 
 # Project imports
-from address.models import Address
 from client.models import Client
 
 
@@ -55,11 +54,6 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-
-    # A user can have many addresses, with one being the main address.
-    # But, two users can, for instance, live in the same address, so
-    # a single address can be associated with many users.
-    addresses = models.ManyToManyField(Address, blank=True)
 
     # One user belongs to a single client. Thus, a client may have
     # an association with various users.

@@ -49,7 +49,5 @@ class Address(TimeStampedModel):
         choices=States.choices()
     )
 
-    is_main_address = models.BooleanField(default=False)
-
     def __str__(self):
         return format_address(self)

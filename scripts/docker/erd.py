@@ -11,7 +11,8 @@ from docker.run import run
 RELEVANT_MODELS = [
     'Address',
     'Client',
-    'User'
+    'User',
+    'UserAddress',
 ]
 
 
